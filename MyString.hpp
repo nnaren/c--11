@@ -1,5 +1,6 @@
 #include<stddef.h>  // size_t
 #include<string.h>  // memcpy
+#include<string> 
 class MyString
 {
 private:
@@ -71,4 +72,41 @@ public:
             delete _data;
         }
     }
+
+    bool operator<(const MyString& rhs) const // 为了set
+    {
+        return std::string(this->_data) < std::string(rhs._data);
+        //借用现成事实：std::string 能够比较大小
+    }
+    bool operator==(const MyString& rhs) const // 为了set
+    {
+        return std::string(this->_data) == std::string(rhs._data);
+        //借用现成事实：std::string 能够比较大小
+    }
+    char* get() const {return _data;}
 };
+
+size_t MyString::DCtor = 0;  
+size_t MyString::Ctor = 0;   
+size_t MyString::CCtor = 0;  
+size_t MyString::CAsgn = 0;  
+size_t MyString::MCtor = 0;  
+size_t MyString::MAsgn = 0;  
+size_t MyString::Dtor = 0;   
+
+namespace std
+{
+    template<>
+    struct hash<MyString>  //
+    {
+        size_t
+        operator
+        {
+
+        }
+       
+    };
+    
+}
+
+
